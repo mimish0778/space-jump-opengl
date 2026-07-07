@@ -10,7 +10,12 @@ C / OpenGL (GLUT) で実装したジャンプアクションゲームです。�
 - グラフィックス: OpenGL + GLU + GLUT（Windows / freeglut 互換）
 - 画面構成:
   1. **スタート画面** — ロケットを発射してゲームを開始
+  
+  <img width="865" height="618" alt="title" src="https://github.com/user-attachments/assets/af1329af-7e5f-4305-9989-2cece3991c3a" />
+  
   2. **ゲーム画面** — プレイヤーが自動で走り続け、ジャンプで障害物・敵を回避してスコアを稼ぐ
+  
+  <img width="867" height="617" alt="play" src="https://github.com/user-attachments/assets/620bf2e4-a58a-424e-a604-f8ac60166b17" />
 
 ## 操作方法
 
