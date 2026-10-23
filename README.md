@@ -1,63 +1,58 @@
-# space-jump-opengl
+# SPACE JUMP (C / OpenGL)
 
-C / OpenGL (GLUT) で実装したジャンプアクションゲームです。ロケット発射のスタート画面から始まり、障害物（敵）を避けながらスコアを稼いでいく2Dライクな3D描画のミニゲームです。
+迫ってくるトゲトゲの敵をジャンプでかわし続ける、ワンボタンのアクションゲームです。C と OpenGL（GLUT）で書きました。
 
-> 2024年6月制作。後に Three.js 版へ移植する前の、オリジナルの C/OpenGL 実装です。
+2024 年 6 月に制作したもので、のちに Three.js でブラウザ版（[space-jump](https://github.com/mimish0778/space-jump)）に移植しています。
 
-## 概要
+<img width="865" height="618" alt="タイトル画面" src="https://github.com/user-attachments/assets/af1329af-7e5f-4305-9989-2cece3991c3a" />
 
-- 言語: C
-- グラフィックス: OpenGL + GLU + GLUT（Windows / freeglut 互換）
-- 画面構成:
-  1. **スタート画面** — ロケットを発射してゲームを開始
-  
-  <img width="865" height="618" alt="title" src="https://github.com/user-attachments/assets/af1329af-7e5f-4305-9989-2cece3991c3a" />
-  
-  2. **ゲーム画面** — プレイヤーが自動で走り続け、ジャンプで障害物・敵を回避してスコアを稼ぐ
-  
-  <img width="867" height="617" alt="play" src="https://github.com/user-attachments/assets/620bf2e4-a58a-424e-a604-f8ac60166b17" />
+<img width="867" height="617" alt="プレイ画面" src="https://github.com/user-attachments/assets/620bf2e4-a58a-424e-a604-f8ac60166b17" />
 
-## 操作方法
+## 遊び方
 
-| キー | 動作 |
-|------|------|
-| `Space` または `↑（矢印キー上）` | スタート画面ではロケット発射 / ゲーム中はジャンプ |
-| `Esc` | ゲーム終了 |
+タイトル画面で `Space` を押すとロケットが飛び立ち、ゲームが始まります。キャラクターは自動で転がって進むので、敵が来たらジャンプでよけてください。敵にぶつかるとタイトルに戻ります。
 
-## ディレクトリ構成
+進んだ距離がスコア（m）になり、最高記録は左上の `MAX` に表示されます（ゲームを終了するとリセット）。
 
-```
-space-jump-opengl/
-├── src/
-│   └── report.c        # メインプログラム
-├── include/
-│   ├── myShape.h        # 円・円柱などの基本形状描画ユーティリティ
-│   └── GL/               # OpenGL / GLU / GLUT ヘッダ
-├── lib/
-│   ├── glut32.lib
-│   └── glut.def
-└── bin/
-    └── glut32.dll        # 実行時に必要（実行ファイルと同じディレクトリに配置）
-```
+| キー | タイトル画面 | プレイ中 |
+|---|---|---|
+| `Space` / `↑` | スタート | ジャンプ |
+| `Esc` | 終了 | 終了 |
 
-## ビルド方法（Windows / Visual Studio）
+## ビルド
 
-1. 新しい C/C++ コンソール（または Windows デスクトップ）プロジェクトを作成
-2. `src/report.c` と `include/myShape.h` をプロジェクトに追加
-3. プロジェクトのインクルードディレクトリに `include/` を追加
-4. プロジェクトのライブラリディレクトリに `lib/` を追加し、追加の依存ファイルに `glut32.lib`（および `opengl32.lib`, `glu32.lib`）を指定
-5. 実行時に `bin/glut32.dll` を実行ファイル（.exe）と同じフォルダにコピー
-6. ビルドして実行
+Windows 向けです。GLUT のヘッダ・ライブラリ・DLL はリポジトリに同梱しています。
 
-### MinGW でのビルド例
+### Visual Studio
+
+1. 空の C/C++ プロジェクトを作り、`src/report.c` を追加する
+2. インクルードディレクトリに `include/`、ライブラリディレクトリに `lib/` を追加する
+3. 追加の依存ファイルに `glut32.lib` `opengl32.lib` `glu32.lib` を指定する
+4. ビルドしたら、`bin/glut32.dll` を `.exe` と同じフォルダにコピーして実行する
+
+### MinGW
 
 ```sh
 gcc src/report.c -Iinclude -Llib -lglut32 -lopengl32 -lglu32 -o space-jump.exe
 ```
 
-実行前に `glut32.dll` を `space-jump.exe` と同じフォルダに置いてください。
+こちらも実行前に `glut32.dll` を `space-jump.exe` と同じフォルダに置いてください。
 
-## 注意事項
+## ファイル構成
 
-- `GL/`, `glut32.dll`, `glut32.lib`, `glut.def` は GLUT（OpenGL Utility Toolkit）配布物に含まれるファイルです。ライセンス・著作権は各配布元に帰属します。
-- `myShape.h` は Copyright (c) 2003 by T. HAYASHI and K. KATO によるユーティリティです。
+```
+src/report.c       ゲーム本体（描画・入力・当たり判定すべて）
+include/myShape.h  円柱・円盤などの図形を描くユーティリティ
+include/GL/        OpenGL / GLU / GLUT のヘッダ
+lib/               glut32.lib, glut.def
+bin/glut32.dll     実行時に必要な DLL
+```
+
+キャラクターやロケットはすべて球・円柱・立方体などの組み合わせで描いています。シーンの切り替えは、大きな壁が画面を横切るワイプで表現しています。
+
+動きはフレームごとに一定量進める作りなので、PC の性能によってゲームの速さが変わります。
+
+## クレジット
+
+- `include/myShape.h` — Copyright (c) 2003 by T. HAYASHI and K. KATO
+- `include/GL/`、`lib/`、`bin/glut32.dll` — GLUT（OpenGL Utility Toolkit）の配布物です。ライセンス・著作権は配布元に帰属します。
