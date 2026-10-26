@@ -91,7 +91,9 @@ space-jump-opengl/
     └── glut32.dll    実行時に必要な GLUT の DLL（Windows 用）
 ```
 
-## ライセンスについて
+## ライセンス
+
+ゲーム本体（`src/report.c`）は [MIT License](LICENSE) で公開しています。次のファイルはこのライセンスの対象外です。
 
 - `include/GL/`、`lib/glut32.lib`、`lib/glut.def`、`bin/glut32.dll` は GLUT（OpenGL Utility Toolkit）の配布物に含まれるファイルです。著作権とライセンスはそれぞれの配布元に帰属します。
 - `include/myShape.h` は T. HAYASHI 氏と K. KATO 氏によるユーティリティです（Copyright (c) 2003）。
