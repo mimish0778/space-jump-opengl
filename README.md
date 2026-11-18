@@ -72,7 +72,7 @@ Linux（GCC 13、freeglut）では、このコマンドでビルドと実行が�
 ## 仕組み
 
 - 画面は 700 x 500 のウィンドウで、スタート画面とゲーム画面の 2 つのシーンを切り替えます。切り替えのときは、大きな板が画面を横切る演出が入ります。
-- キャラクター、トゲの球、ロケットは、GLUT の球、円錐、立方体と、`myShape.h` の円柱を組み合わせて描いています。
+- キャラクター、トゲの球、ロケットは、GLUT の球、円錐、立方体と、GLU で描いた円柱を組み合わせて描いています。
 - 動きはすべて 1 フレームごとの移動量で決まっています（経過時間による補正はありません）。そのため、実行する環境の描画速度によってゲームの速さが変わります。
 
 ## プロジェクト構成
@@ -82,8 +82,7 @@ space-jump-opengl/
 ├── src/
 │   └── report.c      ゲーム本体
 ├── include/
-│   ├── myShape.h     円柱などの形状を描くユーティリティ
-│   └── GL/           OpenGL / GLU / GLUT のヘッダー（Windows 用）
+│   └── GL/glut.h     GLUT のヘッダー（Windows 用）
 ├── lib/
 │   ├── glut32.lib    GLUT のインポートライブラリ（Windows 用）
 │   └── glut.def
@@ -95,5 +94,4 @@ space-jump-opengl/
 
 ゲーム本体（`src/report.c`）は [MIT License](LICENSE) で公開しています。次のファイルはこのライセンスの対象外です。
 
-- `include/GL/`、`lib/glut32.lib`、`lib/glut.def`、`bin/glut32.dll` は GLUT（OpenGL Utility Toolkit）の配布物に含まれるファイルです。著作権とライセンスはそれぞれの配布元に帰属します。
-- `include/myShape.h` は T. HAYASHI 氏と K. KATO 氏によるユーティリティです（Copyright (c) 2003）。
+- `include/GL/glut.h`、`lib/glut32.lib`、`lib/glut.def`、`bin/glut32.dll` は GLUT（OpenGL Utility Toolkit）の配布物に含まれるファイルです（Copyright (c) Mark J. Kilgard）。OpenGL と GLU のヘッダー（`GL/gl.h`、`GL/glu.h`）は、Visual Studio の Windows SDK や MinGW に含まれるものを使います。

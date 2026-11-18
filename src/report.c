@@ -1,11 +1,38 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 #include <time.h>
 #include "GL/glut.h"
 #include "GL/gl.h"
 #include "GL/glu.h"
-#include "myShape.h"
+
+// Y 軸方向に伸びる、中心が原点の円柱（半径 r、高さ h、分割数 n）を描く
+void drawSolidCylinder(double r, double h, int n)
+{
+	GLUquadric *q = gluNewQuadric();
+	gluQuadricNormals(q, GLU_SMOOTH);
+
+	glEnable(GL_NORMALIZE);  // 拡大縮小された座標系でも陰影が正しくなるように
+	glPushMatrix();
+		glRotatef(-90.0, 1.0, 0.0, 0.0);  // gluCylinder の Z 軸を Y 軸に合わせる
+		glTranslatef(0.0, 0.0, -0.5 * h);
+		gluCylinder(q, r, r, h, n, 1);
+
+		// 下のふた（外向きの法線が -Y を向くように裏返す）
+		glPushMatrix();
+			glRotatef(180.0, 1.0, 0.0, 0.0);
+			gluDisk(q, 0.0, r, n, 1);
+		glPopMatrix();
+
+		// 上のふた
+		glTranslatef(0.0, 0.0, h);
+		gluDisk(q, 0.0, r, n, 1);
+	glPopMatrix();
+	glDisable(GL_NORMALIZE);
+
+	gluDeleteQuadric(q);
+}
 
 #define KEY_SPACE 32
 #define KEY_ESC 27
@@ -110,7 +137,7 @@ float specular[] = { 0.8, 0.8, 0.8, 1.0 };
 float ambient[] = { 0.1, 0.1, 0.1, 1.0 };
 float shininess = 124.0;
 
-DrawString(char* str, float x0, float y0, double w, double h)
+void DrawString(char* str, float x0, float y0, double w, double h)
 {
 	int len;
 
@@ -397,7 +424,7 @@ void setPlayer(void)
 				glRotatef(-60, 0, 0, 1);
 
 				glEnable(GL_LIGHTING);
-				mySolidCylinder(0.05, 0.7, 36);
+				drawSolidCylinder(0.05, 0.7, 36);
 				glDisable(GL_LIGHTING);
 			glPopMatrix();
 
@@ -409,7 +436,7 @@ void setPlayer(void)
 				glRotatef(60, 0, 0, 1);
 
 				glEnable(GL_LIGHTING);
-				mySolidCylinder(0.05, 0.7, 36);
+				drawSolidCylinder(0.05, 0.7, 36);
 				glDisable(GL_LIGHTING);
 			glPopMatrix();
 
@@ -613,7 +640,7 @@ void setRocket(void)
 			glTranslatef(0.0, 1.0, 0.0);
 
 			glEnable(GL_LIGHTING);
-			mySolidCylinder(1.0, 2.0, 12);
+			drawSolidCylinder(1.0, 2.0, 12);
 			glDisable(GL_LIGHTING);
 		glPopMatrix();
 
@@ -624,7 +651,7 @@ void setRocket(void)
 			glTranslatef(0.0, -1.0, 0.0);
 
 			glEnable(GL_LIGHTING);
-			mySolidCylinder(1.0, 2.0, 12);
+			drawSolidCylinder(1.0, 2.0, 12);
 			glDisable(GL_LIGHTING);
 		glPopMatrix();
 
@@ -680,7 +707,7 @@ void setRocket(void)
 			glRotatef(-90, 1, 0, 0);
 
 			glEnable(GL_LIGHTING);
-			mySolidCylinder(1.0, 1.0, 24.0);
+			drawSolidCylinder(1.0, 1.0, 24);
 			glDisable(GL_LIGHTING);
 		glPopMatrix();
 	glPopMatrix();
