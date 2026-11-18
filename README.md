@@ -55,9 +55,11 @@ gcc src/report.c -Iinclude -Llib -lglut32 -lopengl32 -lglu32 -o space-jump.exe
 # Debian / Ubuntu の場合
 sudo apt install build-essential freeglut3-dev
 
-gcc src/report.c -Iinclude -lglut -lGLU -lGL -lm -o space-jump
+gcc src/report.c -lglut -lGLU -lGL -lm -o space-jump
 ./space-jump
 ```
+
+Linux では freeglut のヘッダーを使うため、`-Iinclude` は付けません（`include/` の `glut.h` は Windows 用です）。
 
 Linux（GCC 13、freeglut）では、このコマンドでビルドと実行ができることを確認しています。
 
