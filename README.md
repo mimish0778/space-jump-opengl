@@ -59,17 +59,7 @@ gcc src/report.c -lglut -lGLU -lGL -lm -o space-jump
 ./space-jump
 ```
 
-Linux では freeglut のヘッダーを使うため、`-Iinclude` は付けません（`include/` の `glut.h` は Windows 用です）。
-
-Linux（GCC 13、freeglut）では、このコマンドでビルドと実行ができることを確認しています。
-
-### GCC 14 以降を使う場合
-
-ソースコードには、戻り値の型を省略した関数の定義と、`<string.h>` を読み込まずに使っている `strlen` があります。GCC 14 以降ではこれらが既定でエラーになるため、次のオプションを追加してください（GCC 13 以前でも同じオプションを付けてビルドできます）。
-
-```sh
--Wno-error=implicit-int -Wno-error=implicit-function-declaration
-```
+Linux では freeglut のヘッダーを使うため、`-Iinclude` は付けません（`include/` の `glut.h` は Windows 用です）。Ubuntu 24.04（GCC 13、freeglut）で、このコマンドでビルドできることを確認しています。
 
 ## 仕組み
 
